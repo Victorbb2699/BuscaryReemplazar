@@ -1,9 +1,9 @@
 package dad.javafx.buscarReemplazar;
 
 import javafx.application.Application;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -11,71 +11,91 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class BuscarReemplazApp extends Application {
 
-	// view
-
-	BuscarRemplazarController controller;
-	
-//	private Label buscarLabel;
-//	private Label reemplazarLabel;
-//	private TextField buscarText;
-//	private TextField reemplazarText;
-//	private Button buscarButton, ReemplazarButton, ReemplazarTodoButton, cerrarButton, helpButton;
-//	private CheckBox Mayusculas, buscarAtras, resaltarResultados, ExpresionRegular;
+	private Button buscarButton, remplazarButton, remplazarTodoButton, cerrarButton, ayudaButton;
+	private Label buscarLabel, remplazarLabel;
+	private TextField buscarText, remplazarText;
+	private CheckBox letrasCheck, buscarCheck, expresionCheck, resaltarCheck;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-//		buscarLabel = new Label("Buscar: ");
-//		reemplazarLabel = new Label("Reemplazar con:");
-//
-//		buscarText = new TextField();
-//		reemplazarText = new TextField();
-//
-//		buscarButton = new Button("Buscar");
-//		buscarButton.setMinWidth(30);
-//		ReemplazarButton = new Button("Reemplazar");
-//		ReemplazarTodoButton = new Button("Reemplazar Todo");
-//		cerrarButton = new Button("Cerrar");
-//		helpButton = new Button("Ayuda");
-//
-//		Mayusculas = new CheckBox("Mayusculas y minusculas");
-//		buscarAtras = new CheckBox("Buscar hacia atrás");
-//		ExpresionRegular = new CheckBox("Expresión Regular");
-//		resaltarResultados = new CheckBox("Resaltar resultados");
-//
-//		VBox botones = new VBox(buscarButton, ReemplazarButton, ReemplazarTodoButton, cerrarButton, helpButton);
-//		botones.setSpacing(5);
-//
-//		GridPane root = new GridPane();
-//		root.setVgap(5);
-//		root.setHgap(5);
-//		root.setAlignment(Pos.CENTER);
-//		root.addRow(0, new HBox(buscarLabel, buscarText), botones);
-//		root.addRow(1, new HBox(reemplazarLabel, reemplazarText));
-//		root.addRow(2, new HBox(Mayusculas, buscarAtras));
-//		root.addRow(3, new HBox(ExpresionRegular, resaltarResultados));
-//		GridPane.setRowSpan(botones, 3);
-//		GridPane.setColumnSpan(buscarText, 1);
-//		GridPane.setHgrow(buscarText, Priority.ALWAYS);
-		
-		controller = new BuscarRemplazarController();
-		
-		Scene scene = new Scene(controller.view(), 640, 380);
+		buscarButton = new Button("Buscar");
+		buscarButton.setMinWidth(100);
+		remplazarButton = new Button("Remplazar");
+		remplazarButton.setMinWidth(100);
+		remplazarTodoButton = new Button("Remplazar todo");
+		remplazarTodoButton.setMinWidth(100);
+		cerrarButton = new Button("Cerrar");
+		cerrarButton.setMinWidth(100);
+		ayudaButton = new Button("Ayuda");
+		ayudaButton.setMinWidth(100);
 
-		primaryStage.setTitle("Buscar y  Reemplazar");
+		buscarLabel = new Label("Buscar: ");
+		remplazarLabel = new Label("Remplazar con: ");
+
+		buscarText = new TextField();
+		remplazarText = new TextField();
+
+		letrasCheck = new CheckBox("Mayusculas y minusculas");
+		buscarCheck = new CheckBox("Buscar hacia atras");
+		expresionCheck = new CheckBox("Expresion regular");
+		resaltarCheck = new CheckBox("Resaltar resultados");
+
+		GridPane grid = new GridPane();
+
+		grid.addRow(0, letrasCheck, buscarCheck);
+		grid.addRow(1, expresionCheck, resaltarCheck);
+		grid.setVgap(5);
+
+		ColumnConstraints[] checkConstrains = { new ColumnConstraints(), new ColumnConstraints() };
+
+		checkConstrains[0].setHalignment(HPos.LEFT);
+		checkConstrains[1].setHalignment(HPos.LEFT);
+		checkConstrains[0].setHgrow(Priority.ALWAYS);
+		checkConstrains[1].setHgrow(Priority.ALWAYS);
+
+		grid.getColumnConstraints().setAll(checkConstrains);
+
+		GridPane root = new GridPane();
+		root.setPadding(new Insets(5));
+		root.setHgap(5);
+		root.setVgap(5);
+		root.addRow(0, buscarLabel, buscarText, buscarButton);
+		root.addRow(1, remplazarLabel, remplazarText, remplazarButton);
+		root.addRow(2, new Label(""), grid, new VBox(5, remplazarTodoButton, cerrarButton));
+		root.add(ayudaButton, 2, 3);
+
+		ColumnConstraints[] cols = { new ColumnConstraints(), new ColumnConstraints(), new ColumnConstraints() };
+
+		cols[0].setHalignment(HPos.LEFT);
+		cols[1].setHalignment(HPos.CENTER);
+		cols[1].fillWidthProperty();
+		cols[2].setHalignment(HPos.RIGHT);
+
+		root.getColumnConstraints().setAll(cols);
+
+		cols[1].setHgrow(Priority.ALWAYS);
+		root.getColumnConstraints().setAll(cols);
+
+		root.setAlignment(Pos.TOP_CENTER);
+
+		Scene scene = new Scene(root, 300, 200);
+
+		primaryStage.setTitle("Buscar y Remplazar");
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		
+
 	}
 
 	public static void main(String[] args) {
 		launch(args);
 
 	}
+
 }
